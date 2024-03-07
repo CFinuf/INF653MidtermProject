@@ -1,8 +1,6 @@
-<?php // DB Connect
-    //External Database URL
-    //postgres://<username>:<password>@<host>/<dbname>
-    // postgres://inf653midtermsql_user:l1hJ3czjFbsmepqjyUZhvE06VeTPIhRN@dpg-cnjo4ouct0pc73b49sd0-a.oregon-postgres.render.com/inf653midtermsql
-  class Database {
+<?php
+
+class Database {
     // DB Params
     private $host;
     private $port;
@@ -12,29 +10,29 @@
     private $conn;
 
     public function __construct() {
-      $this->username = getenv('USERNAME');
-      $this->password = getenv('PASSWORD');
-      $this->dbname = getenv('DBNAME');
-      $this->host = getenv('HOST');
-      $this->port = getenv('PORT');
-  }  
+        
+        $this->username = getenv('USERNAME');
+        $this->password = getenv('PASSWORD');
+        $this->dbname = getenv('DBNAME');
+        $this->host = getenv('HOST');
+        $this->port = getenv('PORT');
+    }  
 
-    
     public function connect() {
+        if($this->conn) {
+            return $this->conn;
+        } else {
+            $dsn = "pgsql:host={$this->host};port={$this->port};dbname={$this->dbname}";
 
-      if($this->conn){
-        return this->conn;
-      } else{
-
-      $dsn = "pgsql:host={$this->host};port={$this->port};dbname={$this->dbname}";
-
-      try { 
-        $this->conn = new PDO($dsn, $this->username, $this->password);
-        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        return $this->conn;
-      } catch(PDOException $e) {
-        echo 'Connection Error: ' . $e->getMessage();
-      }
+            try { 
+                $this->conn = new PDO($dsn, $this->username, $this->password);
+                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                return $this->conn;
+            } catch(PDOException $e) {
+                echo 'Connection Error: ' . $e->getMessage();
+            }
+        }
     }
-  }
 }
+
+?>

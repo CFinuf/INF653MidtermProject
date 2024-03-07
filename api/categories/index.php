@@ -10,6 +10,8 @@ if ($method === 'OPTIONS') {
     header('Access-Control-Allow-Headers: Origin, Accept, Content-Type, X-Requested-With');
     exit();
 }
+include_once '../../config/Database.php';
+include_once '../../models/Category.php';
 
 // Route the request based on the HTTP method
 switch ($method) {
