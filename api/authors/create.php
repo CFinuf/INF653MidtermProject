@@ -7,6 +7,7 @@ header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,
 
 include_once '../../config/Database.php';
 include_once '../../models/Author.php';
+include_once '../../functions/isValid.php'; // Include isValid.php
 
 $database = new Database();
 $db = $database->connect();
@@ -15,7 +16,11 @@ $author = new Author($db);
 
 $data = json_decode(file_get_contents("php://input"));
 
-if (empty($data->author)) {
+// Define required fields for validation
+$fields = array('author');
+
+// Validate data
+if (!isValid($data, $fields)) {
     echo json_encode(array('message' => 'Missing Required Parameters'));
 } else {
     $author->author = $data->author;

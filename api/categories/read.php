@@ -1,30 +1,32 @@
 <?php
-// Required headers
-header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json');
+    header('Access-Control-Allow-Origin: *');
+    header('Content-Type: application/json');
+    $method = $_SERVER['REQUEST_METHOD'];
 
-include_once '../../config/Database.php';
-include_once '../../models/Category.php';
-
-$database = new Database();
-$db = $database->connect();
-
-$category = new Category($db);
-
-$result = $category->read();
-
-if ($result->rowCount() > 0) {
-    $categories_arr = array();
-    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-        extract($row);
-        $category_item = array(
-            'id' => $id,
-            'category' => $category
-        );
-        array_push($categories_arr, $category_item);
+    if ($method === 'OPTIONS') {
+        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+        header('Access-Control-Allow-Headers: Origin, Accept, Content-Type, X-Requested-With');
+        exit();
     }
-    echo json_encode($categories_arr);
-} else {
-    echo json_encode(array('message' => 'No Categories Found'));
-}
+
+    include_once '../../config/Database.php';
+    include_once '../../models/Category.php';
+
+    $database = new Database();
+    $db = $database->connect();
+
+    $category = new Category($db);
+
+    // Check if query parameter 'id' exists
+    if (isset($_GET['id'])) {
+        include_once 'read_single.php'; // Include appropriate read_single.php file
+    } elseif ($method === 'GET') {
+        include_once 'read.php'; // Include appropriate read.php file
+    } elseif ($method === 'POST') {
+        include_once 'create.php'; // Include appropriate create.php file
+    } elseif ($method === 'PUT') {
+        include_once 'update.php'; // Include appropriate update.php file
+    } elseif ($method === 'DELETE') {
+        include_once 'delete.php'; // Include appropriate delete.php file
+    }
 ?>
