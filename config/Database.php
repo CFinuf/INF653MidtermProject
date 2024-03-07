@@ -1,4 +1,7 @@
-<?php 
+<?php // DB Connect
+    //External Database URL
+    //postgres://<username>:<password>@<host>/<dbname>
+    // postgres://inf653midtermsql_user:l1hJ3czjFbsmepqjyUZhvE06VeTPIhRN@dpg-cnjo4ouct0pc73b49sd0-a.oregon-postgres.render.com/inf653midtermsql
   class Database {
     // DB Params
     private $host;
@@ -14,12 +17,9 @@
       $this->dbname = getenv('DBNAME');
       $this->host = getenv('HOST');
       $this->port = getenv('PORT');
-    }
+  }  
 
-    // DB Connect
-    //External Database URL
-    //postgres://<username>:<password>@<host>/<dbname>
-    // postgres://inf653midtermsql_user:l1hJ3czjFbsmepqjyUZhvE06VeTPIhRN@dpg-cnjo4ouct0pc73b49sd0-a.oregon-postgres.render.com/inf653midtermsql
+    
     public function connect() {
 
       if($this->conn){
